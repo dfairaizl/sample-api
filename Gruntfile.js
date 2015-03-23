@@ -34,6 +34,21 @@ var configureGrunt = function (grunt) {
 
                 }
             }
+        },
+
+        shell: {
+            options: {
+                stderr: false
+            },
+            install: {
+                command: 'npm install'
+            },
+            migrate: {
+                command: 'knex migrate:latest'
+            },
+            seed: {
+                command: 'knex seed:run'
+            }
         }
     };
 
@@ -41,6 +56,12 @@ var configureGrunt = function (grunt) {
     grunt.initConfig(cfg);
 
     grunt.registerTask('dev', 'description', ['express:dev', 'watch']);
+
+    grunt.registerTask('init', ['shell:install', 'shell:migrate', 'shell:seed']);
+
+    // Database Tasks
+    grunt.registerTask('migrate', ['shell:migrate']);
+    grunt.registerTask('seed', ['shell:seed']);
 };
 
 // Export the configuration
